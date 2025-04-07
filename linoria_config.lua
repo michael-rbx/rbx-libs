@@ -235,7 +235,7 @@ local SaveManager = {} do
 			self.Library:Notify(string.format('loaded config %q', name))
 		end)
 
-		section:AddButton('save config', function()
+		--[[section:AddButton('save config', function()
 			local name = Options.SaveManager_ConfigList.Value
 
 			local success, err = self:Save(name)
@@ -244,7 +244,22 @@ local SaveManager = {} do
 			end
 
 			self.Library:Notify(string.format('saved config %q', name))
-		end)
+		end)]]
+
+		section:AddButton({
+				Text = "save config",
+				Func = function()
+					local name = Options.SaveManager_ConfigList.Value
+
+					local success, err = self:Save(name)
+					if not success then
+						return self.Library:Notify('failed to save config: ' .. err)
+					end
+		
+					self.Library:Notify(string.format('saved config %q', name))
+				end,
+				DoubleClick = true,
+		})
 
 		section:AddButton('refresh list', function()
 			Options.SaveManager_ConfigList:SetValues(self:RefreshConfigList())
